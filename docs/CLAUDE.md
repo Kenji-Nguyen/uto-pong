@@ -388,14 +388,28 @@ export async function requireAdmin() {
 ## Design System
 
 ### Colors (Blue/Orange Theme)
-- Primary: Blue shades
-- Accent: Orange shades
-- Base: shadcn/ui default palette
+- **Primary:** Blue shades (oklch(0.588 0.208 264.05))
+- **Accent:** Orange shades (oklch(0.678 0.195 37.69))
+- **Base:** shadcn/ui palette with custom overrides
+- **Charts:** Blue (chart-1) and Orange (chart-2) for data visualization
+
+See `docs/THEMING.md` for complete color system documentation.
 
 ### Components
-- Built with shadcn/ui + Radix UI primitives
+- Built with shadcn/ui (new-york style) + Radix UI primitives
 - Located in `src/components/ui/`
 - Install new components: `npx shadcn@latest add [component]`
+- Configuration: `components.json`
+
+**Installed Components:**
+- Button, Card, Input, Label
+- Table, Badge, Dialog
+
+### Styling
+- **Tailwind CSS v4** with OKLCH color space
+- **CSS Variables** for theming (both HSL & OKLCH formats)
+- **Dark mode** ready (via `.dark` class)
+- **cn() utility** in `@/lib/utils` for className merging
 
 ---
 
@@ -431,10 +445,19 @@ export async function requireAdmin() {
 
 ## Resources
 
+### Documentation
+- **Project Docs:**
+  - `docs/CLAUDE.md` - This file (AI assistant guide)
+  - `docs/THEMING.md` - Complete theming & UI guide
+  - `docs/SETUP.md` - Setup instructions
+  - `docs/milestones.md` - Development roadmap
+
+### External Resources
 - [Next.js App Router](https://nextjs.org/docs/app)
 - [Drizzle ORM](https://orm.drizzle.team/docs/overview)
 - [better-auth](https://www.better-auth.com/docs)
 - [shadcn/ui](https://ui.shadcn.com/)
+- [Tailwind CSS v4](https://tailwindcss.com/)
 - [TanStack Query](https://tanstack.com/query/latest)
 - [webdevcody structure](https://github.com/webdevcody/strudel-cookbook/tree/main/src)
 
