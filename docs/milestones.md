@@ -10,15 +10,17 @@ This document breaks down the development into feature-by-feature milestones. Ea
 
 ### Tasks
 - [x] Initialize Next.js with App Router and TypeScript *(Done)*
-- [x] Install shadcn/ui components
+- [x] Install shadcn/ui components *(Done)*
 - [ ] Configure blue/orange color theme
-- [ ] Set up PostgreSQL on Neon (free tier)
-- [ ] Install and configure Drizzle ORM
-- [ ] Design database schema
-- [ ] Set up better-auth authentication
+- [x] Set up PostgreSQL on Neon (free tier) *(Done)*
+- [x] Install and configure Drizzle ORM *(Done)*
+- [x] Design database schema *(Done - 8 tables created)*
+- [x] Set up better-auth authentication *(Done)*
+- [x] Create project folder structure *(Done)*
+- [x] Push database schema to Neon *(Done)*
+- [x] Implement session management *(Done - via better-auth)*
 - [ ] Create simple login page
 - [ ] Build player roster/list page
-- [ ] Implement session management
 
 ### Database Schema (Initial)
 ```sql
@@ -43,11 +45,11 @@ ranks (
 ```
 
 ### Acceptance Criteria
-- ✅ Users can log in with simple authentication
-- ✅ Player roster displays all users
+- ⏳ Users can log in with simple authentication (auth configured, UI pending)
+- ⏳ Player roster displays all users (pending)
 - ✅ Database connection is stable
-- ✅ Admin users can be identified
-- ✅ Sessions persist across page refreshes
+- ✅ Admin users can be identified (schema ready)
+- ✅ Sessions persist across page refreshes (better-auth configured)
 
 ### Dependencies
 - None (starting point)

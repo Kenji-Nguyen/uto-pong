@@ -16,12 +16,15 @@ This document tracks what has been set up and how to work with the project.
 - ✅ Environment variables configured
 - ✅ Project structure defined
 - ✅ Documentation created
+- ✅ better-auth integration set up
+- ✅ Complete folder structure created
+- ✅ Database schema pushed to Neon (all tables created)
 
 **Next Steps:**
-- ⏳ Set up better-auth integration
-- ⏳ Create folder structure (components, data-access, use-cases, etc.)
-- ⏳ Push database schema to Neon
-- ⏳ Build authentication flow
+- ⏳ Build authentication UI (login/signup pages)
+- ⏳ Seed initial data (rank tiers)
+- ⏳ Create basic layout components
+- ⏳ Start Milestone 2 - Match Recording System
 
 ---
 
@@ -238,24 +241,36 @@ Follows [webdevcody's architecture](https://github.com/webdevcody/strudel-cookbo
 ├── .env.example           # Template
 │
 └── src/
-    ├── app/              # Next.js App Router
-    ├── components/       # UI components (TO CREATE)
+    ├── app/              # Next.js App Router (✓ Created)
+    │   └── api/auth/[...all]/route.ts  # Auth API endpoint
+    ├── components/       # UI components (✓ Created)
+    │   ├── ui/          # shadcn components
+    │   ├── layout/      # Layout components
+    │   ├── matches/     # Match components
+    │   ├── players/     # Player components
+    │   └── leaderboard/ # Leaderboard components
     ├── db/               # Database (✓ Created)
     │   ├── index.ts     # DB connection
-    │   └── schema/      # Drizzle schemas
-    ├── data-access/     # DB queries (TO CREATE)
-    ├── use-cases/       # Business logic (TO CREATE)
-    ├── queries/         # TanStack Query (TO CREATE)
-    ├── hooks/           # React hooks (TO CREATE)
-    ├── fn/              # Server utilities (TO CREATE)
-    ├── lib/             # Core utilities (✓ Partial)
-    └── utils/           # Helpers (TO CREATE)
+    │   └── schema/      # Drizzle schemas (8 files)
+    ├── data-access/     # DB queries (✓ Created)
+    ├── use-cases/       # Business logic (✓ Created)
+    ├── queries/         # TanStack Query (✓ Created)
+    ├── hooks/           # React hooks (✓ Created)
+    ├── fn/              # Server utilities (✓ Created)
+    ├── lib/             # Core utilities (✓ Created)
+    │   ├── auth.ts           # better-auth server
+    │   ├── auth-client.ts    # better-auth client
+    │   └── utils.ts          # shadcn cn() helper
+    └── utils/           # Helpers (✓ Created)
 ```
 
 **Key Files Created:**
-- `src/db/index.ts` - Database connection
-- `src/db/schema/*.ts` - 7 schema files
+- `src/db/index.ts` - Database connection (with schema import)
+- `src/db/schema/*.ts` - 8 schema files (auth, users, ranks, matches, games, elo, leaderboard, admin)
+- `src/lib/auth.ts` - better-auth server configuration
+- `src/lib/auth-client.ts` - better-auth client hooks
 - `src/lib/utils.ts` - shadcn cn() helper
+- `src/app/api/auth/[...all]/route.ts` - Auth API route handler
 - `drizzle.config.ts` - Drizzle config
 
 ---
@@ -353,36 +368,41 @@ export function cn(...inputs: ClassValue[]) {
 
 ## Next Implementation Steps
 
-### 1. Better Auth Setup
-```bash
-# Generate auth schema
-npx @better-auth/cli generate
+### ✅ Completed Setup Steps
 
-# Create files:
-# - src/lib/auth.ts (server config)
-# - src/lib/auth-client.ts (client hooks)
-# - src/app/api/auth/[...all]/route.ts (API handler)
-# - src/db/schema/auth.ts (auth tables)
-```
+1. **Better Auth Setup** ✅
+   - Created `src/lib/auth.ts` (server config with Drizzle adapter)
+   - Created `src/lib/auth-client.ts` (client hooks)
+   - Created `src/app/api/auth/[...all]/route.ts` (API handler)
+   - Created `src/db/schema/auth.ts` (auth tables)
 
-### 2. Create Folder Structure
-```bash
-mkdir -p src/{components,data-access,use-cases,queries,hooks,fn,utils}
-mkdir -p src/components/{ui,layout,matches,players,leaderboard}
-```
+2. **Folder Structure** ✅
+   - All core folders created (components, data-access, use-cases, queries, hooks, fn, utils)
+   - Component sub-folders created (ui, layout, matches, players, leaderboard)
 
-### 3. Push Database Schema
-```bash
-pnpm db:push
-```
+3. **Database Schema** ✅
+   - Pushed all tables to Neon successfully
+   - All foreign keys and constraints created
 
-### 4. Install TanStack Query
-```bash
-pnpm add @tanstack/react-query
-```
+### 🚀 Ready to Start Building
 
-### 5. Start Building Features
-See `docs/milestones.md` for feature roadmap.
+1. **Build Authentication UI**
+   - Create login page (`src/app/login/page.tsx`)
+   - Create signup page (`src/app/signup/page.tsx`)
+   - Build auth form components
+
+2. **Install Additional Dependencies**
+   ```bash
+   pnpm add @tanstack/react-query
+   pnpm add react-hook-form @hookform/resolvers
+   ```
+
+3. **Seed Initial Data**
+   - Create seed script for rank tiers
+   - Optionally seed test users
+
+4. **Start Milestone 2: Match Recording**
+   See `docs/milestones.md` for feature roadmap.
 
 ---
 
