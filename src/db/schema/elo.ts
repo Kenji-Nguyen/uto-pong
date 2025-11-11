@@ -1,14 +1,14 @@
-import { pgTable, uuid, integer, timestamp, boolean, decimal } from "drizzle-orm/pg-core";
-import { users } from "./users";
+import { pgTable, text, integer, timestamp, boolean, decimal } from "drizzle-orm/pg-core";
+import { user } from "./auth";
 import { matches } from "./matches";
 
 // ELO History - tracks every ELO change
 export const eloHistory = pgTable("elo_history", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  userId: uuid("user_id")
+  id: text("id").$default(() => crypto.randomUUID()).primaryKey(),
+  userId: text("user_id")
     .notNull()
-    .references(() => users.id),
-  matchId: uuid("match_id")
+    .references(() => user.id),
+  matchId: text("match_id")
     .notNull()
     .references(() => matches.id, { onDelete: "cascade" }),
   eloBefore: integer("elo_before").notNull(),
@@ -22,9 +22,9 @@ export const eloHistory = pgTable("elo_history", {
 
 // User Stats - denormalized for performance
 export const userStats = pgTable("user_stats", {
-  userId: uuid("user_id")
+  userId: text("user_id")
     .primaryKey()
-    .references(() => users.id),
+    .references(() => user.id),
   currentElo: integer("current_elo").default(1000).notNull(),
   matchesPlayed: integer("matches_played").default(0).notNull(),
   matchesWon: integer("matches_won").default(0).notNull(),

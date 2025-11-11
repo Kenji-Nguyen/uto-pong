@@ -1,12 +1,12 @@
-import { pgTable, uuid, integer, date, timestamp } from "drizzle-orm/pg-core";
-import { users } from "./users";
+import { pgTable, text, integer, date, timestamp } from "drizzle-orm/pg-core";
+import { user } from "./auth";
 
 // Leaderboard Snapshots - for tracking rank changes over time
 export const leaderboardSnapshots = pgTable("leaderboard_snapshots", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  userId: uuid("user_id")
+  id: text("id").$default(() => crypto.randomUUID()).primaryKey(),
+  userId: text("user_id")
     .notNull()
-    .references(() => users.id),
+    .references(() => user.id),
   elo: integer("elo").notNull(),
   rankPosition: integer("rank_position").notNull(),
   snapshotDate: date("snapshot_date").notNull(),
