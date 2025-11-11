@@ -18,6 +18,9 @@ export default function Home() {
             {session ? (
               <>
                 <Button asChild variant="ghost">
+                  <Link href="/matches">Matches</Link>
+                </Button>
+                <Button asChild variant="ghost">
                   <Link href="/roster">Player Roster</Link>
                 </Button>
                 <Button asChild variant="outline">
@@ -50,9 +53,14 @@ export default function Home() {
 
           <div className="mb-12 flex justify-center gap-4">
             {session ? (
-              <Button asChild size="lg">
-                <Link href="/roster">View Players</Link>
-              </Button>
+              <>
+                <Button asChild size="lg">
+                  <Link href="/matches">View Matches</Link>
+                </Button>
+                <Button asChild size="lg" variant="outline">
+                  <Link href="/roster">View Players</Link>
+                </Button>
+              </>
             ) : (
               <>
                 <Button asChild size="lg">

@@ -15,6 +15,7 @@ export const user = pgTable("user", {
   image: text("image"),
   createdAt: timestamp("createdAt").notNull().defaultNow(),
   updatedAt: timestamp("updatedAt").notNull().defaultNow(),
+  isAdmin: boolean("isAdmin").notNull().default(false),
 });
 
 export const session = pgTable("session", {
