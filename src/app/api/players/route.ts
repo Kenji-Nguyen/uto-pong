@@ -1,22 +1,22 @@
 import { NextResponse } from "next/server";
 import { db } from "@/db";
-import { users } from "@/db/schema";
+import { user } from "@/db/schema";
 import { desc } from "drizzle-orm";
 
 export async function GET() {
   try {
     const allPlayers = await db
       .select({
-        id: users.id,
-        name: users.name,
-        email: users.email,
-        createdAt: users.createdAt,
-        isAdmin: users.isAdmin,
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        createdAt: user.createdAt,
+        isAdmin: user.isAdmin,
       })
-      .from(users)
-      .orderBy(desc(users.createdAt));
+      .from(user)
+      .orderBy(desc(user.createdAt));
 
-    return NextResponse.json({ players: allPlayers });
+    return NextResponse.json(allPlayers);
   } catch (error) {
     console.error("Error fetching players:", error);
     return NextResponse.json(

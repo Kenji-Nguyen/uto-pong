@@ -1,6 +1,5 @@
 // Export all schemas
 export * from "./auth";
-export * from "./users";
 export * from "./ranks";
 export * from "./matches";
 export * from "./games";

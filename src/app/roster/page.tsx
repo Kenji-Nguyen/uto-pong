@@ -33,7 +33,7 @@ export default function RosterPage() {
       if (!response.ok) throw new Error("Failed to fetch players");
 
       const data = await response.json();
-      setPlayers(data.players);
+      setPlayers(data);
     } catch (err: any) {
       setError(err.message || "Failed to load players");
     } finally {
