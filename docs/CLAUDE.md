@@ -1,4 +1,4 @@
-# Claude AI Assistant Guide - Uto Pong
+# Uto Pong - Claude AI Assistant Guide
 
 Quick reference guide for AI assistants working on this Ping Pong ELO Tracker project.
 
@@ -13,7 +13,7 @@ Quick reference guide for AI assistants working on this Ping Pong ELO Tracker pr
 - TypeScript
 - Drizzle ORM + PostgreSQL (Neon)
 - better-auth for authentication
-- shadcn/ui + Tailwind CSS
+- shadcn/ui + Tailwind CSS v4
 - TanStack Query (client state)
 - pnpm (package manager)
 
@@ -27,6 +27,28 @@ Quick reference guide for AI assistants working on this Ping Pong ELO Tracker pr
 
 ---
 
+## Current Status
+
+**Phase:** Milestone 1 - Project Setup & Authentication (In Progress)
+
+**Completed:**
+- ✅ Next.js 16 project initialized
+- ✅ All dependencies installed via pnpm
+- ✅ Database schema designed and pushed to Neon
+- ✅ Drizzle ORM configured
+- ✅ better-auth integration set up
+- ✅ Complete folder structure created
+- ✅ shadcn/ui components installed
+
+**Next Steps:**
+- ⏳ Build authentication UI (login/signup pages)
+- ⏳ Configure blue/orange color theme
+- ⏳ Seed initial data (rank tiers)
+- ⏳ Create basic layout components
+- ⏳ Start Milestone 2 - Match Recording System
+
+---
+
 ## Project Structure
 
 Following [webdevcody's structure](https://github.com/webdevcody/strudel-cookbook/tree/main/src):
@@ -35,10 +57,8 @@ Following [webdevcody's structure](https://github.com/webdevcody/strudel-cookboo
 /
 ├── drizzle/               # Database migrations (generated)
 ├── drizzle.config.ts      # Drizzle configuration
-├── docs/                  # Project documentation
-│   ├── CLAUDE.md         # This file
-│   ├── SETUP.md          # Setup guide
-│   └── milestones.md     # Development milestones
+├── docs/
+│   └── claude.md         # This file - AI assistant guide
 │
 └── src/
     ├── app/              # Next.js App Router
@@ -260,6 +280,31 @@ export function MatchCard({ className, ...props }: MatchCardProps) {
 - `tsconfig.json` - TypeScript config
 - `next.config.ts` - Next.js config
 - `tailwind.config.ts` - Tailwind config
+- `components.json` - shadcn/ui config
+
+---
+
+## Database Schema Key Points
+
+### Match Workflow
+1. User creates match → status: `pending`
+2. Opponent confirms → status: `confirmed`
+3. ELO calculation runs → `elo_history` updated
+4. Player stats updated → `user_stats` updated
+
+### Important Tables
+- `users` - Player accounts (id, name, email, isAdmin)
+- `matches` - Match records with confirmation workflow
+- `games` - Individual game scores (e.g., 11-9, 11-7)
+- `elo_history` - Every ELO change logged
+- `user_stats` - Denormalized player stats (performance)
+- `ranks` - Rank tier definitions
+
+### Relations
+- Match has 2 players (player1_id, player2_id)
+- Match has many games
+- Each game has winner_id
+- ELO history links to user + match
 
 ---
 
@@ -293,30 +338,6 @@ Table Legend → 1700+ ELO
 Expected Score: E_A = 1 / (1 + 10^((R_B - R_A) / 400))
 New Rating: R_A' = R_A + K * Diminishing * (Actual - Expected)
 ```
-
----
-
-## Database Schema Key Points
-
-### Match Workflow
-1. User creates match → status: `pending`
-2. Opponent confirms → status: `confirmed`
-3. ELO calculation runs → `elo_history` updated
-4. Player stats updated → `user_stats` updated
-
-### Important Tables
-- `users` - Player accounts (id, name, email, isAdmin)
-- `matches` - Match records with confirmation workflow
-- `games` - Individual game scores (e.g., 11-9, 11-7)
-- `elo_history` - Every ELO change logged
-- `user_stats` - Denormalized player stats (performance)
-- `ranks` - Rank tier definitions
-
-### Relations
-- Match has 2 players (player1_id, player2_id)
-- Match has many games
-- Each game has winner_id
-- ELO history links to user + match
 
 ---
 
@@ -385,7 +406,7 @@ export async function requireAdmin() {
 
 ---
 
-## Design System
+## Design System & Theming
 
 ### Colors (Blue/Orange Theme)
 - **Primary:** Blue shades (oklch(0.588 0.208 264.05))
@@ -393,23 +414,109 @@ export async function requireAdmin() {
 - **Base:** shadcn/ui palette with custom overrides
 - **Charts:** Blue (chart-1) and Orange (chart-2) for data visualization
 
-See `docs/THEMING.md` for complete color system documentation.
+### Tailwind CSS v4
+- **OKLCH color space** for better perceptual uniformity
+- **CSS Variables** for theming (in `src/app/globals.css`)
+- **Dark mode** ready (via `.dark` class)
 
-### Components
+### shadcn/ui Components
 - Built with shadcn/ui (new-york style) + Radix UI primitives
 - Located in `src/components/ui/`
-- Install new components: `npx shadcn@latest add [component]`
-- Configuration: `components.json`
+- Install new: `npx shadcn@latest add [component]`
 
 **Installed Components:**
 - Button, Card, Input, Label
 - Table, Badge, Dialog
 
-### Styling
-- **Tailwind CSS v4** with OKLCH color space
-- **CSS Variables** for theming (both HSL & OKLCH formats)
-- **Dark mode** ready (via `.dark` class)
-- **cn() utility** in `@/lib/utils` for className merging
+### Usage
+```tsx
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+
+// Use cn() for conditional classes
+<div className={cn("base-classes", condition && "conditional")} />
+
+// Use semantic color names
+<Button className="bg-primary">Primary</Button>
+<span className="text-accent">Accent</span>
+```
+
+---
+
+## Environment Variables
+
+Located in `.env`:
+
+```bash
+# Database
+DATABASE_URL="postgresql://..."
+
+# Better Auth
+BETTER_AUTH_SECRET="..."
+BETTER_AUTH_URL="http://localhost:3000"
+
+# App Configuration
+NEXT_PUBLIC_APP_URL="http://localhost:3000"
+NODE_ENV="development"
+
+# Admin Configuration
+ADMIN_EMAIL="kenji@maji.studio"
+ADMIN_PASSWORD="changeme"
+```
+
+---
+
+## Development Milestones
+
+### Milestone 1: Project Setup & Authentication (Current)
+- [x] Initialize Next.js with TypeScript
+- [x] Install shadcn/ui components
+- [x] Set up PostgreSQL on Neon
+- [x] Configure Drizzle ORM
+- [x] Set up better-auth
+- [ ] Configure blue/orange theme
+- [ ] Create login page
+- [ ] Build player roster page
+
+### Milestone 2: Match Recording System
+- Match creation with opponent confirmation
+- Game-by-game score entry
+- Match backdating capability
+- Pending matches workflow
+
+### Milestone 3: ELO Calculation Engine
+- Core ELO algorithm implementation
+- K-factor system (provisional/standard)
+- Diminishing returns per day
+- ELO history tracking
+
+### Milestone 4: Ranks & Progression
+- Rank tier thresholds
+- Rank badges and progress bars
+- Rank up/down notifications
+
+### Milestone 5: Statistics & Analytics
+- Player profiles
+- Head-to-head records
+- Streak tracking
+- Advanced stats (Giant Killer, Comeback King, etc.)
+
+### Milestone 6: Leaderboard
+- Dynamic ranking display
+- Rank change indicators
+- Player search/filtering
+
+### Milestone 7: Admin Panel
+- Player management
+- Match editing/deletion
+- System controls
+- Audit logging
+
+### Milestone 8: Polish & Deployment
+- Mobile UX optimization
+- Performance optimization
+- Testing & security audit
+- Production deployment
 
 ---
 
@@ -445,14 +552,7 @@ See `docs/THEMING.md` for complete color system documentation.
 
 ## Resources
 
-### Documentation
-- **Project Docs:**
-  - `docs/CLAUDE.md` - This file (AI assistant guide)
-  - `docs/THEMING.md` - Complete theming & UI guide
-  - `docs/SETUP.md` - Setup instructions
-  - `docs/milestones.md` - Development roadmap
-
-### External Resources
+### External Documentation
 - [Next.js App Router](https://nextjs.org/docs/app)
 - [Drizzle ORM](https://orm.drizzle.team/docs/overview)
 - [better-auth](https://www.better-auth.com/docs)
@@ -463,8 +563,5 @@ See `docs/THEMING.md` for complete color system documentation.
 
 ---
 
-## Status
-
+**Last Updated:** 2025-11-11
 **Current Phase:** Milestone 1 - Project Setup & Authentication
-
-See `docs/milestones.md` for complete development roadmap.

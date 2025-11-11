@@ -1,28 +1,32 @@
 # 🏓 Ping Pong ELO Tracker - Development Milestones
 
 ## Overview
+
 This document breaks down the development into feature-by-feature milestones. Each milestone is independently deliverable and testable.
 
 ---
 
 ## Milestone 1: Project Setup & Authentication
+
 **Goal:** Establish foundation and user authentication system
 
 ### Tasks
-- [x] Initialize Next.js with App Router and TypeScript *(Done)*
-- [x] Install shadcn/ui components *(Done)*
+
+- [x] Initialize Next.js with App Router and TypeScript _(Done)_
+- [x] Install shadcn/ui components _(Done)_
 - [ ] Configure blue/orange color theme
-- [x] Set up PostgreSQL on Neon (free tier) *(Done)*
-- [x] Install and configure Drizzle ORM *(Done)*
-- [x] Design database schema *(Done - 8 tables created)*
-- [x] Set up better-auth authentication *(Done)*
-- [x] Create project folder structure *(Done)*
-- [x] Push database schema to Neon *(Done)*
-- [x] Implement session management *(Done - via better-auth)*
+- [x] Set up PostgreSQL on Neon (free tier) _(Done)_
+- [x] Install and configure Drizzle ORM _(Done)_
+- [x] Design database schema _(Done - 8 tables created)_
+- [x] Set up better-auth authentication _(Done)_
+- [x] Create project folder structure _(Done)_
+- [x] Push database schema to Neon _(Done)_
+- [x] Implement session management _(Done - via better-auth)_
 - [ ] Create simple login page
 - [ ] Build player roster/list page
 
 ### Database Schema (Initial)
+
 ```sql
 -- Users table
 users (
@@ -45,6 +49,7 @@ ranks (
 ```
 
 ### Acceptance Criteria
+
 - ⏳ Users can log in with simple authentication (auth configured, UI pending)
 - ⏳ Player roster displays all users (pending)
 - ✅ Database connection is stable
@@ -52,14 +57,17 @@ ranks (
 - ✅ Sessions persist across page refreshes (better-auth configured)
 
 ### Dependencies
+
 - None (starting point)
 
 ---
 
 ## Milestone 2: Match Recording System
+
 **Goal:** Enable players to create and record match results with opponent confirmation
 
 ### Tasks
+
 - [ ] Create match creation page/form
 - [ ] Implement player selection (dropdown/search)
 - [ ] Build game-by-game score entry UI
@@ -75,6 +83,7 @@ ranks (
 - [ ] Add match filtering (by player, date, status)
 
 ### Database Schema Extension
+
 ```sql
 -- Matches table
 matches (
@@ -104,6 +113,7 @@ games (
 ```
 
 ### UI Components Needed
+
 - Match creation form
 - Player selector component
 - Game score entry component
@@ -112,6 +122,7 @@ games (
 - Pending matches notification badge
 
 ### Acceptance Criteria
+
 - ✅ User can create a match in < 30 seconds
 - ✅ Opponent receives notification for pending match
 - ✅ Opponent can confirm/reject match
@@ -122,14 +133,17 @@ games (
 - ✅ Game scores are validated (11+ points, win by 2)
 
 ### Dependencies
+
 - Milestone 1 (authentication, users)
 
 ---
 
 ## Milestone 3: ELO Calculation Engine
+
 **Goal:** Implement fair, anti-grinding ELO rating system
 
 ### Tasks
+
 - [ ] Implement core ELO algorithm
   - [ ] Expected score calculation
   - [ ] Rating adjustment formula
@@ -147,16 +161,19 @@ games (
 ### ELO Algorithm Specifications
 
 **Standard ELO Formula:**
+
 ```
 Expected Score (E_A) = 1 / (1 + 10^((R_B - R_A) / 400))
 New Rating (R_A') = R_A + K * (Actual - Expected)
 ```
 
 **K-Factor Rules:**
+
 - Provisional (first 5 matches): K = 48
 - Standard (after 5 matches): K = 24
 
 **Diminishing Returns (Daily):**
+
 - Match 1 of day: 100% ELO change
 - Match 2 of day: 80% ELO change
 - Match 3 of day: 60% ELO change
@@ -164,6 +181,7 @@ New Rating (R_A') = R_A + K * (Actual - Expected)
 - Match 5+ of day: 20% ELO change
 
 ### Database Schema Extension
+
 ```sql
 -- ELO History table
 elo_history (
@@ -196,6 +214,7 @@ user_stats (
 ```
 
 ### Acceptance Criteria
+
 - ✅ New players start at 1000 ELO
 - ✅ First 5 matches use K=48
 - ✅ After 5 matches, K=24 is used
@@ -206,14 +225,17 @@ user_stats (
 - ✅ System prevents ELO manipulation through grinding
 
 ### Dependencies
+
 - Milestone 2 (match system must be working)
 
 ---
 
 ## Milestone 4: Ranks & Progression
+
 **Goal:** Visual rank system with progression tracking
 
 ### Tasks
+
 - [ ] Define rank tier thresholds
 - [ ] Design rank badge icons/graphics
 - [ ] Create rank component (displays badge + name)
@@ -224,6 +246,7 @@ user_stats (
 - [ ] Seed ranks table with initial data
 
 ### Rank Tiers
+
 ```
 Newbie          - 0-1099 ELO      (Bronze badge)
 Ball Chaser     - 1100-1299 ELO   (Silver badge)
@@ -233,12 +256,14 @@ Table Legend    - 1700+ ELO       (Diamond badge)
 ```
 
 ### UI Components Needed
+
 - Rank badge component
 - Rank progress bar
 - Rank up animation/notification
 - Rank distribution chart (for admin/stats)
 
 ### Acceptance Criteria
+
 - ✅ Players see current rank and ELO
 - ✅ Progress to next rank is clearly shown
 - ✅ Rank badges are visually distinct
@@ -246,14 +271,17 @@ Table Legend    - 1700+ ELO       (Diamond badge)
 - ✅ Rank distribution is visible on leaderboard
 
 ### Dependencies
+
 - Milestone 3 (ELO must be calculated)
 
 ---
 
 ## Milestone 5: Statistics & Analytics
+
 **Goal:** Comprehensive player statistics and performance tracking
 
 ### Tasks
+
 - [ ] Build player profile page
 - [ ] Display core stats (W/L, win %, ELO, rank)
 - [ ] Show match history per player
@@ -274,6 +302,7 @@ Table Legend    - 1700+ ELO       (Diamond badge)
 - [ ] Build personal stats dashboard ("My Stats" page)
 
 ### Advanced Stats Definitions
+
 - **Giant Killer:** Won against opponent with +200 ELO difference
 - **Comeback King:** Won a match after losing first game(s)
 - **Upset Victory:** Won when expected probability was < 30%
@@ -281,6 +310,7 @@ Table Legend    - 1700+ ELO       (Diamond badge)
 - **Favorite Opponent:** Opponent played most frequently
 
 ### Database Queries Needed
+
 ```sql
 -- Head-to-head record
 SELECT winner_id, COUNT(*) as wins
@@ -306,6 +336,7 @@ WHERE ABS(e1.elo_before - e2.elo_before) >= 200
 ```
 
 ### UI Components Needed
+
 - Player profile card
 - Stats grid component
 - Head-to-head comparison widget
@@ -314,6 +345,7 @@ WHERE ABS(e1.elo_before - e2.elo_before) >= 200
 - Recent matches timeline
 
 ### Acceptance Criteria
+
 - ✅ Player profiles show comprehensive stats
 - ✅ Head-to-head records are accurate
 - ✅ Streaks update in real-time
@@ -322,15 +354,18 @@ WHERE ABS(e1.elo_before - e2.elo_before) >= 200
 - ✅ Stats load quickly (< 1 second)
 
 ### Dependencies
+
 - Milestone 2 (match data)
 - Milestone 3 (ELO history)
 
 ---
 
 ## Milestone 6: Leaderboard
+
 **Goal:** Dynamic, competitive leaderboard display
 
 ### Tasks
+
 - [ ] Create leaderboard page
 - [ ] Implement ranking algorithm (sorted by ELO)
 - [ ] Display rank change indicators (↑↓)
@@ -342,12 +377,14 @@ WHERE ABS(e1.elo_before - e2.elo_before) >= 200
 - [ ] Implement rank change tracking (daily/weekly)
 
 ### Leaderboard Features
+
 - Display: Rank, Name, ELO, W/L, Recent Form, Rank Badge
 - Sorting: By ELO (default), Win Rate, Matches Played
 - Filtering: By rank tier, provisional status
 - Rank change: Compare to previous day's position
 
 ### Database Schema Extension
+
 ```sql
 -- Leaderboard snapshots (for tracking rank changes)
 leaderboard_snapshots (
@@ -361,6 +398,7 @@ leaderboard_snapshots (
 ```
 
 ### UI Components Needed
+
 - Leaderboard table component
 - Rank change indicator (arrows)
 - Search/filter bar
@@ -368,6 +406,7 @@ leaderboard_snapshots (
 - Mini leaderboard widget (for dashboard)
 
 ### Acceptance Criteria
+
 - ✅ Leaderboard updates after every match confirmation
 - ✅ Rank changes are accurately tracked
 - ✅ Current user is highlighted
@@ -376,15 +415,18 @@ leaderboard_snapshots (
 - ✅ Shows provisional players distinctly
 
 ### Dependencies
+
 - Milestone 3 (ELO system)
 - Milestone 4 (ranks)
 
 ---
 
 ## Milestone 7: Admin Panel
+
 **Goal:** Admin tools for system management
 
 ### Tasks
+
 - [ ] Create admin dashboard page
 - [ ] Build player management interface
   - [ ] Create new players
@@ -405,6 +447,7 @@ leaderboard_snapshots (
 - [ ] Add admin activity tracking
 
 ### Admin Features
+
 - Player creation/management
 - Match editing/deletion (with cascading ELO recalc)
 - Rank threshold adjustments
@@ -413,6 +456,7 @@ leaderboard_snapshots (
 - Data export functionality
 
 ### Database Schema Extension
+
 ```sql
 -- Admin audit logs
 admin_logs (
@@ -426,12 +470,14 @@ admin_logs (
 ```
 
 ### Security Requirements
+
 - ✅ Only users with is_admin=true can access
 - ✅ All admin actions are logged
 - ✅ Sensitive operations require confirmation
 - ✅ No manual ELO adjustments (system-driven only)
 
 ### Acceptance Criteria
+
 - ✅ Admin can create new players
 - ✅ Admin can edit/delete matches
 - ✅ Match deletion triggers ELO recalculation
@@ -440,14 +486,17 @@ admin_logs (
 - ✅ System stats are accurate
 
 ### Dependencies
+
 - All previous milestones (touches all systems)
 
 ---
 
 ## Milestone 8: Polish & Deployment
+
 **Goal:** Production-ready application
 
 ### Tasks
+
 - [ ] Mobile UX optimization
   - [ ] Test match entry flow on mobile (< 30 sec target)
   - [ ] Optimize touch targets
@@ -480,12 +529,14 @@ admin_logs (
   - [ ] Update README
 
 ### Performance Targets
+
 - Page load: < 2 seconds
 - Match creation: < 30 seconds (user action time)
 - Leaderboard load: < 1 second
 - Database queries: < 100ms average
 
 ### Database Indexes Needed
+
 ```sql
 CREATE INDEX idx_matches_players ON matches(player1_id, player2_id);
 CREATE INDEX idx_matches_played_at ON matches(played_at DESC);
@@ -494,6 +545,7 @@ CREATE INDEX idx_user_stats_elo ON user_stats(current_elo DESC);
 ```
 
 ### Security Checklist
+
 - ✅ SQL injection prevention (use parameterized queries)
 - ✅ XSS prevention (sanitize inputs)
 - ✅ CSRF protection (enabled by better-auth)
@@ -504,6 +556,7 @@ CREATE INDEX idx_user_stats_elo ON user_stats(current_elo DESC);
 - ✅ Database credentials not exposed
 
 ### Acceptance Criteria
+
 - ✅ App is fully responsive (mobile + desktop)
 - ✅ All core features work in production
 - ✅ Performance targets are met
@@ -513,6 +566,7 @@ CREATE INDEX idx_user_stats_elo ON user_stats(current_elo DESC);
 - ✅ App is accessible 24/7
 
 ### Dependencies
+
 - All previous milestones
 
 ---
@@ -520,20 +574,24 @@ CREATE INDEX idx_user_stats_elo ON user_stats(current_elo DESC);
 ## Development Order Recommendation
 
 **Phase 1: Foundation (Week 1-2)**
+
 - Milestone 1: Setup & Auth
 - Start Milestone 2: Match system basics
 
 **Phase 2: Core Features (Week 3-4)**
+
 - Complete Milestone 2: Match recording
 - Milestone 3: ELO engine
 - Milestone 4: Ranks
 
 **Phase 3: User Experience (Week 5-6)**
+
 - Milestone 5: Statistics
 - Milestone 6: Leaderboard
 - Start Milestone 8: Mobile optimization
 
 **Phase 4: Admin & Launch (Week 7-8)**
+
 - Milestone 7: Admin panel
 - Complete Milestone 8: Polish & deploy
 
@@ -542,6 +600,7 @@ CREATE INDEX idx_user_stats_elo ON user_stats(current_elo DESC);
 ## Success Metrics
 
 After launch, track these KPIs:
+
 - Average time to record a match (target: < 30 seconds)
 - Daily active users
 - Matches recorded per day
@@ -553,6 +612,7 @@ After launch, track these KPIs:
 ---
 
 ## Future Enhancements (Post-MVP)
+
 - Doubles matches support
 - Challenge system
 - Tournament brackets
